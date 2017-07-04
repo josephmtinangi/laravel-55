@@ -17,6 +17,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendWelcomeEmail',
             'App\Listeners\SendEmailConfirmationMail',
         ],
+        'App\Events\EmailConfirmed' => [
+            'App\Listeners\SendEmailConfirmationSuccessMail',
+        ],        
     ];
 
     /**

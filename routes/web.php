@@ -25,6 +25,7 @@ Route::get('/register/confirm/{token}', function ($token) {
     $user->save();
 
     // send success email
+    \Mail::to($user)->send(new App\Mail\EmailConfirmed($user));
 
     return redirect()->route('login');
 });
