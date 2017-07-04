@@ -17,4 +17,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/register/confirm/{token}', function ($token) {
+    $user = App\User::whereToken($token)->firstOrFail();
+
+    $user->verified = true;
+    $user->token = null;
+    $user->save();
+
+    // send success email
+
+    return redirect()->route('login');
+});
+
 Route::resource('posts', 'PostsController');
