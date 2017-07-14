@@ -1,15 +1,6 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Models\Post;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,4 +21,17 @@ Route::get('/register/confirm/{token}', function ($token) {
     return redirect()->route('login');
 });
 
-Route::resource('posts', 'PostsController');
+// Route::resource('posts', 'PostsController');
+
+Route::get('dashboard/posts', function () {
+    $posts = Post::latest()->get();
+    return view('dashboard.posts.index', compact('posts'));
+});
+
+Route::delete('dashboard/posts/{post}', function (Post $post) {
+    $post->delete();
+
+    return \Illuminate\Support\Facades\Response::json([
+        'deleted' => true,
+    ]);
+})->name('dashboard.posts.destroy');
